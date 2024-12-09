@@ -64,3 +64,20 @@ fn parse_csv(file_path: &str) -> Vec<Member> {
 
     members
 }
+
+fn calculate_similarity(m1: &Member, m2: &Member) -> f32 {
+    let weight_age = 0.02;
+    let weight_gender = 0.02;
+    let weight_weight = 0.02;
+    let weight_height = 0.02;
+    let weight_max_bpm = 0.01;
+    let weight_avg_bpm = 0.01;
+    let weight_resting_bpm = 0.02;
+    let weight_session_duration = 0.2;
+    let weight_calories_burned = 0.05;
+    let weight_workout_type = 0.25;
+    let weight_fat_percentage = 0.01;
+    let weight_water_intake = 0.05;
+    let weight_workout_frequency = 0.2;
+    let weight_experience_level = 0.2;
+    let weight_bmi = 0.02;
