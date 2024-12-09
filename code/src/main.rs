@@ -47,7 +47,7 @@ impl Member {
     }
 }
 
-fn parse_csv(file_path: &str) -> Vec<Member> {
+fn read_csv(file_path: &str) -> Vec<Member> {
     let file = File::open(file_path).expect("Unable to open file");
     let reader = BufReader::new(file);
     let mut members = Vec::new();
@@ -133,4 +133,58 @@ fn calculate_similarity(m1: &Member, m2: &Member) -> f32 {
     score += weight_bmi * (1.0 / (1.0 + bmi_diff));
 
     score
+}
+
+fn find_gym_buddies(
+    members: &mut [Member],
+    similarity_threshold: f32,
+) -> HashMap<usize, usize> {
+    let mut best_buddies = HashMap::new();
+
+    for i in 0..members.len() {
+        let mut best_match = None;
+        let mut highest_score = 0.0;
+
+        for j in 0..members.len() {
+            if i == j {
+                continue; 
+            }
+
+            let similarity = calculate_similarity(&members[i], &members[j]);
+
+            if similarity > similarity_threshold {
+                members[i].connections.insert(members[j].id);
+                members[j].connections.insert(members[i].id);
+
+                if similarity > highest_score {
+                    highest_score = similarity;
+                    best_match = Some(members[j].id);
+                }
+            }
+        }
+
+        if let Some(best_match_id) = best_match {
+            best_buddies.insert(members[i].id, best_match_id);
+        }
+    }
+
+    best_buddies
+}
+
+fn main() {
+    let file_path = "/Users/michaelzhu/desktop/gym_members_exercise_tracking.csv";
+    let mut members = read_csv(file_path);
+
+    let similarity_threshold = 2.0; 
+    let best_buddies = find_gym_buddies(&mut members, similarity_threshold);
+
+    for member in &members {
+        let best_buddy = best_buddies.get(&member.id).unwrap_or(&0);
+        println!(
+            "Member {}: Best buddy is Member {}, and has {} connections.",
+            member.id,
+            best_buddy,
+            member.connections.len(),
+        );
+    }
 }
