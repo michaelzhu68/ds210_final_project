@@ -189,3 +189,77 @@ fn main() {
         );
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_member() {
+        let attributes = vec![
+            "30", "Male", "70.0", "1.75", "180", "160", "70", "1.5", "800", "Cardio", 
+            "15.0", "2.5", "5", "3", "22.86",
+        ];
+        let member = Member::new(0, attributes);
+
+        assert_eq!(member.id, 0);
+        assert_eq!(member.age, 30);
+        assert_eq!(member.gender, "Male");
+        assert_eq!(member.weight, 70.0);
+        assert_eq!(member.height, 1.75);
+        assert_eq!(member.max_bpm, 180);
+        assert_eq!(member.avg_bpm, 160);
+        assert_eq!(member.resting_bpm, 70);
+        assert_eq!(member.session_duration, 1.5);
+        assert_eq!(member.calories_burned, 800.0);
+        assert_eq!(member.workout_type, "Cardio");
+        assert_eq!(member.fat_percentage, 15.0);
+        assert_eq!(member.water_intake, 2.5);
+        assert_eq!(member.workout_frequency, 5);
+        assert_eq!(member.experience_level, 3);
+        assert_eq!(member.bmi, 22.86);
+    }
+
+    #[test]
+    fn test_calculate_similarity() {
+        let member1 = Member::new(0, vec![
+            "30", "Male", "70.0", "1.75", "180", "160", "70", "1.5", "800", "Cardio", 
+            "15.0", "2.5", "5", "3", "22.86",
+        ]);
+        let member2 = Member::new(1, vec![
+            "32", "Male", "72.0", "1.76", "175", "158", "72", "1.4", "850", "Cardio", 
+            "16.0", "2.6", "5", "3", "23.23",
+        ]);
+
+        let similarity = calculate_similarity(&member1, &member2);
+
+        assert!(similarity > 80.0, "Similarity score is too low: {}", similarity);
+    }
+
+    #[test]
+    fn test_find_gym_buddies() {
+        let mut members = vec![
+            Member::new(0, vec![
+                "30", "Male", "70.0", "1.75", "180", "160", "70", "1.5", "800", "Cardio", 
+                "15.0", "2.5", "5", "3", "22.86",
+            ]),
+            Member::new(1, vec![
+                "32", "Male", "72.0", "1.76", "175", "158", "72", "1.4", "850", "Cardio", 
+                "16.0", "2.6", "5", "3", "23.23",
+            ]),
+            Member::new(2, vec![
+                "40", "Female", "60.0", "1.65", "170", "150", "65", "1.2", "700", "Yoga", 
+                "20.0", "2.0", "4", "2", "22.04",
+            ]),
+        ];
+
+        let similarity_threshold = 75.0;
+        let best_buddies = find_gym_buddies(&mut members, similarity_threshold);
+
+        assert!(members[0].connections.contains(&1));
+        assert!(!members[0].connections.contains(&2));
+
+        assert_eq!(best_buddies[&0], 1);
+        assert_eq!(best_buddies[&1], 0);
+    }
+}
