@@ -173,7 +173,8 @@ fn find_gym_buddies(
 }
 
 fn main() {
-    let mut members = read_csv("gym_members_exercise_tracking.csv");
+    let file = "gym_members_exercise_tracking.csv";
+    let mut members = read_csv(file);
 
     let similarity_threshold = 75.0; 
     let best_buddies = find_gym_buddies(&mut members, similarity_threshold);
