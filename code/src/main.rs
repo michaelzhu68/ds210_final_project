@@ -24,24 +24,24 @@ struct Member {
 }
 
 impl Member {
-    fn new(id: usize, fields: Vec<&str>) -> Self {
+    fn new(id: usize, attribute: Vec<&str>) -> Self {
         Self {
             id,
-            age: fields[0].parse().unwrap(),
-            gender: fields[1].to_string(),
-            weight: fields[2].parse().unwrap(),
-            height: fields[3].parse().unwrap(),
-            max_bpm: fields[4].parse().unwrap(),
-            avg_bpm: fields[5].parse().unwrap(),
-            resting_bpm: fields[6].parse().unwrap(),
-            session_duration: fields[7].parse().unwrap(),
-            calories_burned: fields[8].parse().unwrap(),
-            workout_type: fields[9].to_string(),
-            fat_percentage: fields[10].parse().unwrap(),
-            water_intake: fields[11].parse().unwrap(),
-            workout_frequency: fields[12].parse().unwrap(),
-            experience_level: fields[13].parse().unwrap(),
-            bmi: fields[14].parse().unwrap(),
+            age: attribute[0].parse().unwrap(),
+            gender: attribute[1].to_string(),
+            weight: attribute[2].parse().unwrap(),
+            height: attribute[3].parse().unwrap(),
+            max_bpm: attribute[4].parse().unwrap(),
+            avg_bpm: attribute[5].parse().unwrap(),
+            resting_bpm: attribute[6].parse().unwrap(),
+            session_duration: attribute[7].parse().unwrap(),
+            calories_burned: attribute[8].parse().unwrap(),
+            workout_type: attribute[9].to_string(),
+            fat_percentage: attribute[10].parse().unwrap(),
+            water_intake: attribute[11].parse().unwrap(),
+            workout_frequency: attribute[12].parse().unwrap(),
+            experience_level: attribute[13].parse().unwrap(),
+            bmi: attribute[14].parse().unwrap(),
             connections: HashSet::new(),
         }
     }
@@ -173,8 +173,7 @@ fn find_gym_buddies(
 }
 
 fn main() {
-    let file_path = "/Users/michaelzhu/desktop/gym_members_exercise_tracking.csv";
-    let mut members = read_csv(file_path);
+    let mut members = read_csv("gym_members_exercise_tracking.csv");
 
     let similarity_threshold = 75.0; 
     let best_buddies = find_gym_buddies(&mut members, similarity_threshold);
