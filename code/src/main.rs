@@ -66,21 +66,21 @@ fn read_csv(file_path: &str) -> Vec<Member> {
 }
 
 fn calculate_similarity(m1: &Member, m2: &Member) -> f32 {
-    let weight_age = 0.02;
-    let weight_gender = 0.02;
-    let weight_weight = 0.02;
-    let weight_height = 0.02;
-    let weight_max_bpm = 0.01;
-    let weight_avg_bpm = 0.01;
-    let weight_resting_bpm = 0.02;
-    let weight_session_duration = 0.2;
-    let weight_calories_burned = 0.05;
-    let weight_workout_type = 0.25;
-    let weight_fat_percentage = 0.01;
-    let weight_water_intake = 0.05;
-    let weight_workout_frequency = 0.2;
-    let weight_experience_level = 0.2;
-    let weight_bmi = 0.02;
+    let weight_age = 5.0;
+    let weight_gender = 2.0;
+    let weight_weight = 1.0;
+    let weight_height = 2.0;
+    let weight_max_bpm = 1.0;
+    let weight_avg_bpm = 1.0;
+    let weight_resting_bpm = 2.0;
+    let weight_session_duration = 2.0;
+    let weight_calories_burned = 5.0;
+    let weight_workout_type = 25.0;
+    let weight_fat_percentage = 1.0;
+    let weight_water_intake = 3.0;
+    let weight_workout_frequency = 20.0;
+    let weight_experience_level = 20.0;
+    let weight_bmi = 2.0;
 
     let mut score = 0.0;
 
@@ -133,6 +133,7 @@ fn calculate_similarity(m1: &Member, m2: &Member) -> f32 {
     score += weight_bmi * (1.0 / (1.0 + bmi_diff));
 
     score
+
 }
 
 fn find_gym_buddies(
@@ -175,7 +176,7 @@ fn main() {
     let file_path = "/Users/michaelzhu/desktop/gym_members_exercise_tracking.csv";
     let mut members = read_csv(file_path);
 
-    let similarity_threshold = 2.0; 
+    let similarity_threshold = 75.0; 
     let best_buddies = find_gym_buddies(&mut members, similarity_threshold);
 
     for member in &members {
